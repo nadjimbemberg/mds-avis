@@ -1,9 +1,6 @@
-
-// fetch dit ajax
-
-const Register = async (data) => {
+const Login = async (data) => {
     try {
-        const response = await fetch("http://localhost:3000/register", {
+        const response = await fetch("http://localhost:3000/login", {
             method: 'POST',
             body: JSON.stringify(data),
             headers: {
@@ -17,4 +14,4 @@ const Register = async (data) => {
     }
 }
 
-export default Register
+export default Login
