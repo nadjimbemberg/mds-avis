@@ -1,0 +1,71 @@
+<%- include('partials/head', { title: 'Mon profil' }) %>
+<%- include('partials/navbar') %>
+
+<main class="flex-1 mx-auto max-w-xl w-full px-6 lg:px-8 py-12">
+    <h1 class="text-2xl font-bold text-white mb-8">Mon profil</h1>
+
+    <!-- Informations -->
+    <div class="rounded-xl bg-white/5 ring-1 ring-white/10 p-6 mb-8">
+        <h2 class="text-base font-semibold text-white mb-4">Informations</h2>
+        <dl class="space-y-3">
+            <div class="flex justify-between text-sm">
+                <dt class="text-gray-400">Nom d'utilisateur</dt>
+                <dd class="text-white font-medium"><%= profileUser.username %></dd>
+            </div>
+            <div class="flex justify-between text-sm">
+                <dt class="text-gray-400">Adresse email</dt>
+                <dd class="text-white font-medium"><%= profileUser.email %></dd>
+            </div>
+            <div class="flex justify-between text-sm">
+                <dt class="text-gray-400">Membre depuis</dt>
+                <dd class="text-white">
+                    <%= new Date(profileUser.createdAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }) %>
+                </dd>
+            </div>
+        </dl>
+    </div>
+
+    <!-- Changer mot de passe -->
+    <div class="rounded-xl bg-white/5 ring-1 ring-white/10 p-6">
+        <h2 class="text-base font-semibold text-white mb-4">Changer le mot de passe</h2>
+
+        <% if (success) { %>
+        <div class="mb-4 rounded-md bg-green-500/10 border border-green-500/20 px-4 py-3 text-sm text-green-400">
+            <%= success %>
+        </div>
+        <% } %>
+
+        <% if (error) { %>
+        <div class="mb-4 rounded-md bg-red-500/10 border border-red-500/20 px-4 py-3 text-sm text-red-400">
+            <%= error %>
+        </div>
+        <% } %>
+
+        <form method="POST" action="/change-password" class="space-y-4">
+            <div>
+                <label for="oldPassword" class="block text-sm font-medium text-gray-300 mb-1.5">Mot de passe actuel</label>
+                <input type="password" id="oldPassword" name="oldPassword" required autocomplete="current-password"
+                       class="w-full rounded-md bg-white/5 border border-white/10 px-3 py-2 text-white placeholder-gray-500 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 text-sm" />
+            </div>
+
+            <div>
+                <label for="newPassword" class="block text-sm font-medium text-gray-300 mb-1.5">Nouveau mot de passe</label>
+                <input type="password" id="newPassword" name="newPassword" required autocomplete="new-password"
+                       class="w-full rounded-md bg-white/5 border border-white/10 px-3 py-2 text-white placeholder-gray-500 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 text-sm" />
+            </div>
+
+            <div>
+                <label for="confirmPassword" class="block text-sm font-medium text-gray-300 mb-1.5">Confirmer le nouveau mot de passe</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" required autocomplete="new-password"
+                       class="w-full rounded-md bg-white/5 border border-white/10 px-3 py-2 text-white placeholder-gray-500 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 text-sm" />
+            </div>
+
+            <button type="submit"
+                    class="w-full rounded-md bg-indigo-500 px-4 py-2.5 text-sm font-semibold text-white hover:bg-indigo-400 transition-colors">
+                Modifier le mot de passe
+            </button>
+        </form>
+    </div>
+</main>
+
+<%- include('partials/footer') %>

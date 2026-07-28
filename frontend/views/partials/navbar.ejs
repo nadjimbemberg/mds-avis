@@ -1,0 +1,73 @@
+<header class="bg-gray-900 border-b border-white/10">
+    <nav class="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8">
+
+        <div class="flex lg:flex-1">
+            <a href="/" class="text-white font-bold text-lg tracking-tight">MDS Avis</a>
+        </div>
+
+        <!-- Hamburger (mobile) -->
+        <div class="flex lg:hidden">
+            <button type="button" id="nav-toggle"
+                    class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-400 hover:text-white">
+                <span class="sr-only">Ouvrir le menu</span>
+                <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Desktop links -->
+        <div class="hidden lg:flex lg:gap-x-10">
+            <a href="/" class="text-sm font-semibold text-gray-300 hover:text-white">Accueil</a>
+            <a href="/avis/add" class="text-sm font-semibold text-gray-300 hover:text-white">Ajouter un avis</a>
+            <% if (user) { %>
+                <a href="/profile" class="text-sm font-semibold text-gray-300 hover:text-white">Mon profil</a>
+                <a href="/admin" class="text-sm font-semibold text-gray-300 hover:text-white">Admin</a>
+            <% } %>
+        </div>
+
+        <!-- Desktop auth -->
+        <div class="hidden lg:flex lg:flex-1 lg:justify-end">
+            <% if (user) { %>
+                <span class="text-sm text-gray-500 mr-4">Bonjour, <strong class="text-gray-300"><%= user.username %></strong></span>
+                <form method="POST" action="/logout" class="inline">
+                    <button type="submit" class="text-sm font-semibold text-gray-300 hover:text-white">
+                        Se déconnecter &rarr;
+                    </button>
+                </form>
+            <% } else { %>
+                <a href="/login" class="text-sm font-semibold text-gray-300 hover:text-white">Se connecter &rarr;</a>
+            <% } %>
+        </div>
+    </nav>
+
+    <!-- Mobile menu -->
+    <div id="mobile-menu" class="hidden lg:hidden border-t border-white/10">
+        <div class="space-y-1 px-6 pb-4 pt-2">
+            <a href="/" class="block rounded-lg px-3 py-2 text-base font-semibold text-gray-300 hover:bg-white/5">Accueil</a>
+            <a href="/avis/add" class="block rounded-lg px-3 py-2 text-base font-semibold text-gray-300 hover:bg-white/5">Ajouter un avis</a>
+            <% if (user) { %>
+                <a href="/profile" class="block rounded-lg px-3 py-2 text-base font-semibold text-gray-300 hover:bg-white/5">Mon profil</a>
+                <a href="/admin" class="block rounded-lg px-3 py-2 text-base font-semibold text-gray-300 hover:bg-white/5">Admin</a>
+            <% } %>
+        </div>
+        <div class="border-t border-white/10 px-6 py-3">
+            <% if (user) { %>
+                <p class="text-sm text-gray-500 mb-2">Connecté en tant que <strong class="text-gray-300"><%= user.username %></strong></p>
+                <form method="POST" action="/logout">
+                    <button type="submit" class="block w-full text-left rounded-lg px-3 py-2 text-base font-semibold text-gray-300 hover:bg-white/5">
+                        Se déconnecter
+                    </button>
+                </form>
+            <% } else { %>
+                <a href="/login" class="block rounded-lg px-3 py-2 text-base font-semibold text-gray-300 hover:bg-white/5">Se connecter</a>
+            <% } %>
+        </div>
+    </div>
+</header>
+
+<script>
+    document.getElementById('nav-toggle').addEventListener('click', () => {
+        document.getElementById('mobile-menu').classList.toggle('hidden');
+    });
+</script>
