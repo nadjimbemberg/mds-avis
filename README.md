@@ -1,36 +1,141 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# MDS Avis
 
-## Getting Started
+Site d'avis noté selon la grille d'évaluation MDS.
 
-First, run the development server:
+Architecture : **API REST Express.js** (port 3000) + **Frontend Express.js / EJS** (port 3001).
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Stack
+
+| Couche      | Technologie                               |
+|-------------|-------------------------------------------|
+| API         | Node.js · Express.js 5 · TypeScript       |
+| Base de données | PostgreSQL via Prisma 5 (Neon)        |
+| Auth        | JWT · Argon2id                            |
+| Mail        | Nodemailer                                |
+| Frontend    | Express.js · EJS · Tailwind CSS           |
+| Tests       | Jest · Supertest                          |
+
+## Structure du projet
+
+```
+mds-avis/
+├── API/                    # Back-end (port 3000)
+│   ├── controllers/        # Logique métier
+│   ├── middleware/         # Validation et authentification
+│   ├── routes/index.js     # Toutes les routes
+│   ├── lib/                # JWT, argon2, Prisma, mail
+│   ├── tests/              # Tests Jest + Supertest
+│   ├── docs/               # Collection Postman
+│   └── src/
+│       ├── index.ts        # Point d'entrée
+│       └── prisma/         # Schéma et migrations
+└── frontend/               # Front-end (port 3001)
+    ├── src/
+    │   ├── index.js        # Serveur Express
+    │   ├── routes/         # Pages (auth, avis, profil, admin)
+    │   ├── middleware/     # Auth (cookie httpOnly) + locals
+    │   └── lib/api.js      # Appels vers l'API
+    └── views/              # Templates EJS + partials
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Prérequis
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+- Node.js 18+
+- Une base PostgreSQL (ex. [Neon](https://neon.tech) — gratuit)
+- Deux terminaux ouverts (un pour l'API, un pour le frontend)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Installation
 
-## Learn More
+### 1. API
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+cd API
+npm install
+npx prisma generate
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Créer `API/.env` d'après `API/.env.example` :
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```env
+DATABASE_URL="postgresql://USER:PASS@HOST/DB?sslmode=require"
+JWT_SECRET="une_chaine_aleatoire_longue"
+MAIL_HOST="smtp.example.com"
+MAIL_PORT=587
+MAIL_USER="votre@email.com"
+MAIL_PASS="mot_de_passe_app"
+APP_URL="http://localhost:3001"
+PORT=3000
+```
 
-## Deploy on Vercel
+Appliquer les migrations :
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+npx prisma migrate deploy
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### 2. Frontend
+
+```bash
+cd frontend
+npm install
+```
+
+Créer `frontend/.env` d'après `frontend/.env.example` :
+
+```env
+API_URL=http://localhost:3000
+PORT=3001
+NODE_ENV=development
+```
+
+## Lancement
+
+Ouvrir **deux terminaux** :
+
+**Terminal 1 — API :**
+```bash
+cd API
+npm run dev
+# → http://localhost:3000
+```
+
+**Terminal 2 — Frontend :**
+```bash
+cd frontend
+npm run dev
+# → http://localhost:3001
+```
+
+Ouvrir [http://localhost:3001](http://localhost:3001) dans le navigateur.
+
+## Tests (API)
+
+```bash
+cd API
+npm test
+```
+
+Les tests utilisent des mocks — aucune connexion à la base de données n'est requise.
+
+## Routes API
+
+| Méthode | Route                   | Auth     | Description                        |
+|---------|-------------------------|----------|------------------------------------|
+| GET     | `/`                     | —        | Infos de l'API                     |
+| POST    | `/register`             | —        | Créer un compte                    |
+| POST    | `/login`                | —        | Se connecter (retourne un JWT)     |
+| POST    | `/forgot-password`      | —        | Envoyer un lien de réinitialisation|
+| POST    | `/reset-password`       | —        | Réinitialiser le mot de passe      |
+| GET     | `/avis`                 | —        | Liste des avis (filtrables)        |
+| GET     | `/avis/:id`             | —        | Détail d'un avis                   |
+| POST    | `/avis`                 | Optionnel| Soumettre un avis                  |
+| GET     | `/me`                   | JWT      | Profil de l'utilisateur connecté   |
+| POST    | `/change-password`      | JWT      | Changer de mot de passe            |
+| PUT     | `/avis/:id`             | JWT      | Modifier son avis                  |
+| PUT     | `/authorize/avis/:id`   | JWT      | Valider un avis (admin)            |
+| DELETE  | `/avis/:id`             | JWT      | Supprimer son avis                 |
+
+## Collection Postman
+
+Importer `API/docs/postman_collection.json` dans Postman.  
+Définir la variable `{{baseUrl}}` à `http://localhost:3000`.
