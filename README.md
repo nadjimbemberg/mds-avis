@@ -82,4 +82,6 @@ L'API doit tourner sur `http://localhost:3000` (ou l'URL définie dans `API_URL`
 | `/avis/[id]`           | Détail d'un avis                   | —    |
 | `/avis/[id]/edit`      | Modifier son avis                  | ✓    |
 | `/profile`             | Profil utilisateur                 | ✓    |
-| `/admin`               | Valider les avis en attente        | ✓    |
+| `/admin`               | Valider les avis en attente        | ✓ (rôle `admin`) |
+
+`/admin` est réservé aux comptes avec `role = "admin"` côté API (l'accès est vérifié par le backend ; un utilisateur normal est redirigé). Pour obtenir un compte admin, voir le script `npm run db:seed` du dépôt [API-avis](https://github.com/nadjimbemberg/API-avis).

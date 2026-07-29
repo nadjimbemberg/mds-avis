@@ -16,6 +16,11 @@ export default function Navbar({ user }: { user: AuthUser | null }) {
 
           {user ? (
             <>
+              {user.role === 'admin' && (
+                <Link href="/admin" className="text-gray-300 hover:text-white transition-colors">
+                  Admin
+                </Link>
+              )}
               <Link href="/profile" className="text-gray-300 hover:text-white transition-colors">
                 {user.username}
               </Link>

@@ -4,6 +4,7 @@ export interface AuthUser {
   id: number;
   email: string;
   username: string;
+  role: string;
 }
 
 export function getToken(): string | undefined {
@@ -16,7 +17,7 @@ export function getUser(): AuthUser | null {
   try {
     const payload = token.split('.')[1];
     const decoded = JSON.parse(Buffer.from(payload, 'base64url').toString());
-    return { id: decoded.id, email: decoded.email, username: decoded.username };
+    return { id: decoded.id, email: decoded.email, username: decoded.username, role: decoded.role ?? 'user' };
   } catch {
     return null;
   }

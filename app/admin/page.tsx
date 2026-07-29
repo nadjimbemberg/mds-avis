@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation';
-import { getToken } from '@/lib/auth';
+import { getToken, getUser } from '@/lib/auth';
 import { apiFetch } from '@/lib/api';
 import type { ReviewsResponse } from '@/lib/types';
 
@@ -7,7 +7,9 @@ type Props = { searchParams: { error?: string } };
 
 export default async function AdminPage({ searchParams }: Props) {
   const token = getToken();
-  if (!token) redirect('/login?returnTo=/admin');
+  const user = getUser();
+  if (!token || !user) redirect('/login?returnTo=/admin');
+  if (user.role !== 'admin') redirect('/?error=Réservé+aux+administrateurs');
 
   let pending: ReviewsResponse['data'] = [];
   try {

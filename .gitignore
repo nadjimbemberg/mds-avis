@@ -29,6 +29,7 @@ yarn-error.log*
 **/lib/generated/
 
 # Dossiers du projet API (repo séparé : api-avis)
-API/
-frontend/
+# Note : ancré à la racine (/API/) pour ne pas matcher app/api/ (Windows = core.ignorecase=true)
+/API/
+/frontend/
 render.yaml
