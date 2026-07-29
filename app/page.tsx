@@ -10,15 +10,15 @@ export default async function Home() {
   } catch { /* API indisponible */ }
 
   return (
-    <div className="max-w-5xl mx-auto px-6 py-12">
-      <div className="flex items-center justify-between mb-10">
+    <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between mb-8 sm:mb-10">
         <div>
-          <h1 className="text-3xl font-bold text-white">Avis récents</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold text-white">Avis récents</h1>
           <p className="text-gray-400 mt-1">{reviews.length} avis publiés</p>
         </div>
         <Link
           href="/avis/add"
-          className="bg-white text-gray-900 font-medium px-4 py-2 rounded-md hover:bg-gray-100 transition-colors text-sm"
+          className="w-full sm:w-auto text-center bg-white text-gray-900 font-medium px-4 py-2.5 sm:py-2 rounded-md hover:bg-gray-100 transition-colors text-sm"
         >
           + Donner mon avis
         </Link>

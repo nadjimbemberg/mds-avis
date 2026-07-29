@@ -4,7 +4,7 @@ export default function ForgotPasswordPage({ searchParams }: Props) {
   const { error, success } = searchParams;
 
   return (
-    <div className="flex-1 flex items-center justify-center px-6 py-16">
+    <div className="flex-1 flex items-center justify-center px-4 sm:px-6 py-10 sm:py-16">
       <div className="w-full max-w-sm">
         <h1 className="text-2xl font-bold text-center text-white mb-2">Mot de passe oublié</h1>
         <p className="text-center text-gray-400 text-sm mb-8">

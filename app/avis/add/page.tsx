@@ -7,7 +7,7 @@ export default function AddAvisPage({ searchParams }: Props) {
   const user = getUser();
 
   return (
-    <div className="max-w-xl mx-auto px-6 py-12">
+    <div className="max-w-xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
       <h1 className="text-2xl font-bold text-white mb-8">Donner un avis</h1>
 
       {searchParams.error && (

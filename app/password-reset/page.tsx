@@ -4,7 +4,7 @@ export default function ResetPasswordPage({ searchParams }: Props) {
   const { error, token } = searchParams;
 
   return (
-    <div className="flex-1 flex items-center justify-center px-6 py-16">
+    <div className="flex-1 flex items-center justify-center px-4 sm:px-6 py-10 sm:py-16">
       <div className="w-full max-w-sm">
         <h1 className="text-2xl font-bold text-center text-white mb-8">Nouveau mot de passe</h1>
 
