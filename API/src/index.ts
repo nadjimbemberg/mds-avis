@@ -21,9 +21,12 @@ const server = app.listen(PORT, () => {
     console.log(`Serveur lancé sur http://localhost:${PORT}`);
 });
 
-process.on('SIGTERM', () => {
+const shutdown = () => {
     server.close(() => {
         console.log('Serveur arrêté proprement');
         process.exit(0);
     });
-});
+};
+
+process.on('SIGTERM', shutdown);
+process.on('SIGINT', shutdown);
