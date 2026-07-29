@@ -27,3 +27,8 @@ yarn-error.log*
 
 # Prisma
 **/lib/generated/
+
+# Dossiers du projet API (repo séparé : api-avis)
+API/
+frontend/
+render.yaml
