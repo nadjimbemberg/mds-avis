@@ -29,7 +29,7 @@ module.exports = async (req, res) => {
 
     const publicFields = {
       id: true, author: true, rating: true, description: true,
-      authorized: true, userId: true, createdAt: true, updatedAt: true,
+      authorized: true, userId: true, createdAt: true,
       user: { select: { id: true, username: true } },
     };
 
