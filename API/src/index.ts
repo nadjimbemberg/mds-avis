@@ -5,9 +5,10 @@ import route from '../routes/index';
 
 const app = express();
 const PORT = process.env.PORT ? parseInt(process.env.PORT) : 3000;
-const FRONTEND_URL = process.env.APP_URL || 'http://localhost:3001';
-
-app.use(cors({ origin: FRONTEND_URL }));
+// En prod : APP_URL restreint le CORS à l'URL du frontend.
+// Sans APP_URL : on autorise toutes les origines (dev + premier déploiement).
+const FRONTEND_URL = process.env.APP_URL;
+app.use(cors({ origin: FRONTEND_URL || true }));
 app.use(express.json());
 app.use('/', route);
 

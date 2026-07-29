@@ -1,0 +1,48 @@
+services:
+  # ── API (déployée en premier) ──────────────────────────────────────────────
+  - type: web
+    name: mds-avis-api
+    runtime: node
+    plan: free
+    rootDir: API
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    healthCheckPath: /
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        sync: false           # Coller l'URL Neon dans le dashboard Render
+      - key: JWT_SECRET
+        generateValue: true   # Render génère une valeur aléatoire sécurisée
+      - key: MAIL_HOST
+        sync: false
+      - key: MAIL_PORT
+        value: "587"
+      - key: MAIL_USER
+        sync: false
+      - key: MAIL_PASS
+        sync: false
+      - key: APP_URL
+        fromService:
+          name: mds-avis-frontend
+          type: web
+          property: url       # URL du frontend injectée automatiquement
+
+  # ── Frontend (déployé après l'API) ────────────────────────────────────────
+  - type: web
+    name: mds-avis-frontend
+    runtime: node
+    plan: free
+    rootDir: frontend
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: API_URL
+        fromService:
+          name: mds-avis-api
+          type: web
+          property: url       # URL de l'API injectée automatiquement
